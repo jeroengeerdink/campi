@@ -172,11 +172,6 @@ class VideoServer(threading.Thread):
         # Wipe the circular stream once we're done
         stream.seek(0)
         stream.truncate()
-        command = "MP4Box -add {} {}.mp4".format(beforeFilePath, (self.savepath + self.savename))
-        try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-        except subprocess.CalledProcessError as e:
-            print('FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output))
 
     #start arm
     def run(self):
