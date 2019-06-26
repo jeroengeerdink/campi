@@ -122,13 +122,14 @@ def convert_lastvideo():
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        return '{"status": "converted", "path": '+basepath+'}'
+        return '{"status": "converted", "path": "'+basepath+'"}'
     else:
         return '{"status": "no video"}'
 
 @app.route('/event')
 def event():
     v.startVideo()
+    sleep(0.5)
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
@@ -140,7 +141,7 @@ def event():
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        return '{"status": "converted", "path": '+basepath+'}'
+        return '{"status": "converted", "path": "'+basepath+'"}'
     else:
         return '{"status": "error"}'
 
