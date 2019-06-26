@@ -76,7 +76,7 @@ def send_lastvideo():
         return '{"status": "no video"}'
 
 @app.route('/log')
-def event():
+def log():
     filepath = v.saveBuffer()
     time.sleep(0.5)
     if filepath:
