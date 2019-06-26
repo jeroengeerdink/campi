@@ -31,7 +31,6 @@ v.doTimelapse=0
 v.stopArm()
 '''
 import os, time, io, math, threading
-import time, datetime
 from datetime import datetime #to get fractional seconds
 import picamera
 
@@ -176,6 +175,7 @@ class VideoServer(threading.Thread):
 
     def saveBuffer(self):
         self.recordDuration = 20 #seconds, make this a parameter
+        timestamp = self.GetTimestamp()
         self.savename = timestamp.split('.')[0]
         self.scanImageFrame = 0
         fileName = self.savepath + self.savename
