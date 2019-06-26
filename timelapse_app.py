@@ -38,6 +38,8 @@ print 'starting video server'
 v=VideoServer.VideoServer()
 v.daemon = True
 v.start()
+time.sleep(3)
+startArm()
 
 def purgeFolder(folder):
     for the_file in os.listdir(folder):
