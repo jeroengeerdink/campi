@@ -99,11 +99,10 @@ def send_lastvideo():
         path = basepath + "_before.h264"
         print path
         print basepath
-        command = "MP4Box -add {} {}.mp4".format(path, basepath)
+        command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         print command
         try:
-            #output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-            output = subprocess.call(command, shell=True)
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         print path
@@ -120,6 +119,7 @@ def help():
     ret += 'timelapseon' + '<BR>'
     ret += 'timelapseoff' + '<BR>'
     ret += 'lastimage' + '<BR>'
+    ret += 'latvideo' + '<BR>'
     return ret
 
 #home page
