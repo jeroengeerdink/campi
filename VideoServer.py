@@ -114,7 +114,7 @@ class VideoServer(threading.Thread):
         '''
         timestamp = self.GetTimestamp2()
         if self.isArmed and not self.videoStarted:
-            self.recordDuration = 5 #seconds, make this a parameter
+            self.recordDuration = 20 #seconds, make this a parameter
             self.savename = timestamp.split('.')[0]
             self.scanImageFrame = 0
             self.videoStarted = 1
@@ -177,6 +177,7 @@ class VideoServer(threading.Thread):
     def run(self):
         print '\tVideoServer run() is initializing [can only call this once]'
         lasttime = time.time()
+        self.startArm()
         while True:
             if self.isArmed:
                 timestamp = self.GetTimestamp()
