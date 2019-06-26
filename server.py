@@ -71,10 +71,26 @@ def stopArm():
 def send_lastvideo():
     if v.savename:
         basepath = v.savepath + v.savename
-        path = basepath + "_before.h264"
         return send_file(basepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True, cache_timeout=-1)
     else:
         return '{"status": "no video"}'
+
+@app.route('/log')
+def event():
+    filepath = v.saveBuffer()
+    time.sleep(0.5)
+    if filepath:
+        #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
+        print command
+        try:
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            #output = subprocess.call(command, shell=True)
+        except subprocess.CalledProcessError as e:
+            print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
+        return '{"status": "converted", "path": "'+filepath+'"}'
+    else:
+        return '{"status": "error"}'
 
 @app.route('/event')
 def event():
@@ -89,7 +105,8 @@ def event():
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        return '{"status": "converted", "path": "'+filepath+'"}'
+        #return '{"status": "converted", "path": "'+filepath+'"}'
+        return send_file(filepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True, cache_timeout=-1)
     else:
         return '{"status": "error"}'
 
