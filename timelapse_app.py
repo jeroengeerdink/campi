@@ -173,7 +173,7 @@ def get_index():
 if __name__ == "__main__":
     try:
         time.sleep(3)
-        v.startArm()
+        #v.startArm()
         time.sleep(3)
         purgeFolder(v.savepath)
         app.run(host='0.0.0.0', port=5010, debug=True)
