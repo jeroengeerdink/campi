@@ -99,13 +99,6 @@ def send_lastvideo():
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
-        #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
-        command = "MP4Box -add {} {}.mp4".format(path, basepath)
-        print command
-        try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-        except subprocess.CalledProcessError as e:
-            print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         return send_file(basepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4')
     else:
         return 'no last video' + '<BR>' + genericresponse()
