@@ -37,7 +37,7 @@ app = Flask(__name__)
 print 'starting video server'
 v=VideoServer.VideoServer()
 v.daemon = True
-v.start()
+#v.start()
 
 def purgeFolder(folder):
     for the_file in os.listdir(folder):
