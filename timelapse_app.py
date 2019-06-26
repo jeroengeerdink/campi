@@ -101,7 +101,8 @@ def send_lastvideo():
         path = basepath + "_before.h264"
         print path
         print basepath
-        command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        command = "MP4Box -add {} {}.mp4".format(path, basepath)
         print command
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
@@ -120,7 +121,8 @@ def convert_lastvideo():
         path = basepath + "_before.h264"
         print path
         print basepath
-        command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        command = "MP4Box -add {} {}.mp4".format(path, basepath)
         print command
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
