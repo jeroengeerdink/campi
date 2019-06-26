@@ -92,6 +92,14 @@ def send_lastimage(filename):
     else:
         return send_file(v.savepath + filename)
 
+@app.route('/lastvideo')
+def send_lastvideo():
+    if v.beforefilepath:
+        print(v.beforefilepath)
+        return send_file(v.beforefilepath)
+    else:
+        return 'no last video' + '<BR>' + genericresponse()
+
 @app.route('/help', methods=['GET'])
 def help():
     ret = 'arm' + '<BR>'
