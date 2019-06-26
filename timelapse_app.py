@@ -94,9 +94,10 @@ def send_lastimage(filename):
 
 @app.route('/lastvideo')
 def send_lastvideo():
-    if v.beforefilepath:
-        print(v.beforefilepath)
-        return send_file(v.beforefilepath)
+    if v.savename:
+        path = v.savepath + v.savename + "_before.h264"
+        print(path)
+        return send_file(path)
     else:
         return 'no last video' + '<BR>' + genericresponse()
 
