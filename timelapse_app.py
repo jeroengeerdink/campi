@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Author: Robert H Cudmore
 # Web: http://robertcudmore.org
 # Date: 20151205
@@ -41,37 +42,37 @@ def genericresponse():
     ret += '<BR>'
     ret += pprint.pformat(v.__dict__).replace(',','<BR>')
     return ret
-    
+
 @app.route('/startarm', methods=['GET'])
 def startArm():
     v.startArm()
     return genericresponse()
-    
+
 @app.route('/stoparm', methods=['GET'])
 def stopArm():
     v.stopArm()
     return genericresponse()
-    
+
 @app.route('/startvideo', methods=['GET'])
 def startVideo():
     v.startVideo()
     return genericresponse()
-    
+
 @app.route('/stopvideo', methods=['GET'])
 def stopVideo():
     v.stopVideo()
     return genericresponse()
-    
+
 @app.route('/timelapseon', methods=['GET'])
 def timelapseon():
     v.doTimelapse = 1
     return genericresponse()
-    
+
 @app.route('/timelapseoff', methods=['GET'])
 def timelapseoff():
     v.doTimelapse = 0
     return genericresponse()
-    
+
 @app.route('/system', methods=['GET'])
 def system():
     return genericresponse()
@@ -90,7 +91,7 @@ def send_lastimage(filename):
         return 'please don\'t be nasty'
     else:
         return send_file(v.savepath + filename)
-        
+
 @app.route('/help', methods=['GET'])
 def help():
     ret = 'startarm' + '<BR>'
@@ -111,11 +112,10 @@ def get_index():
 
 #start the app/webserver
 if __name__ == "__main__":
-    try:        
+    try:
         app.run(host='0.0.0.0', port=5010, debug=True)
         #socketio.run(app, host='0.0.0.0', use_reloader=True)
         #socketio.run(app, host='0.0.0.0', port=5001, use_reloader=True)
     except:
         print 'EXITING AND AT LAST LINE'
         raise
-

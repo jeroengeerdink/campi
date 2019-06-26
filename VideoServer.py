@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #Author: Robert H Cudmore
 #Web: http://robertcudmore.org
 #Date: 20151205
@@ -47,32 +48,32 @@ class VideoServer(threading.Thread):
         if not os.path.exists(self.savepath):
             print '\tVideoServer is making output directory:', self.savepath
             os.makedirs(self.savepath)
-        
+
         self.savename = '' # the prefix to save all files
-        
+
         self.logFileName = None
         self.logFilePath = None
- 
+
         self.beforefilename = ''
         self.afterfilename = ''
-        
+
         self.beforefilepath = ''
         self.afterfilepath = ''
-        
+
         self.bufferSeconds = 5
 
         self.startTime = 0 #when we start recording in run(), triggered by startVideo()
         self.recordDuration = 10 #seconds, set to infinity to then stop with stopVideo()
-        
+
         self.doTimelapse = 0
         self.stillinterval = 5 #second
         self.lastimage = ''
-        
+
     def getState(self):
         ret = 'a=b'
         ret += '\nc=d'
         return ret
-        
+
     def startArm(self):
         print '\tVideoThread startArm()'
         if self.isArmed == 0:
@@ -82,23 +83,23 @@ class VideoServer(threading.Thread):
             #self.camera.led = 0
             self.camera.start_preview()
             self.camera.framerate = 30 # can be 60
-            
+
             print '\tVideoServer starting circular stream'
             self.stream = picamera.PiCameraCircularIO(self.camera, seconds=self.bufferSeconds)
             self.camera.start_recording(self.stream, format='h264')
 
             self.isArmed = 1 #order is important, must come after we instantiate camera
-        
+
     def stopArm(self):
         print '\tVideoThread stopArm()'
         timestamp = self.GetTimestamp()
         if self.isArmed == 1:
             self.isArmed = 0
-            
+
             self.camera.stop_preview()
             self.camera.close()
             self.camera = None
-            
+
             self.logfileWrite(timestamp, 'VideoServerStopArm')
             self.logFileName = ''
             self.scanImageFrame = 0
@@ -118,7 +119,7 @@ class VideoServer(threading.Thread):
             if self.camera:
                 self.camera.annotate_text = 'S'
                 self.camera.annotate_background = picamera.Color('black')
-            
+
             #remove fractional seconds
             self.logFileName = self.savename + '_si.txt'
             self.logFilePath = self.savepath + self.logFileName
@@ -143,7 +144,7 @@ class VideoServer(threading.Thread):
     def GetTimestamp(self):
         #returns integer seconds (for file names)
         return time.strftime('%Y%m%d') + '_' + time.strftime('%H%M%S')
-    
+
     def GetTimestamp2(self):
         # returns fraction seconds (for log file entries)
         #datetime.datetime.now().strftime("%H:%M:%S.%f")
@@ -171,7 +172,7 @@ class VideoServer(threading.Thread):
 
     #start arm
     def run(self):
-        print '\tVideoServer run() is initializing [can only call this once]' 
+        print '\tVideoServer run() is initializing [can only call this once]'
         lasttime = time.time()
         while True:
             if self.isArmed:
@@ -189,14 +190,14 @@ class VideoServer(threading.Thread):
                             self.camera.split_recording(self.afterfilepath)
                             # Write the 10 seconds "before" motion to disk as well
                             self.write_video(self.stream, self.beforefilepath)
-                
+
                             while self.videoStarted and (time.time()<(self.startTime + self.recordDuration)):
                                 self.camera.wait_recording(0.001)
-                
+
                             self.stopVideo() #
                             self.camera.split_recording(self.stream)
                             print '\tVideoServer received self.videoStarted==0 or past recordDuration'
-                        
+
                         #capture a foo.jpg frame every stillInterval seconds
                         thistime = time.time()
                         if self.doTimelapse and thistime > (lasttime+self.stillinterval):
@@ -204,7 +205,7 @@ class VideoServer(threading.Thread):
                             self.lastimage = self.GetTimestamp() + '.jpg'
                             print 'capturing still frame:', self.lastimage
                             self.camera.capture(self.savepath + self.lastimage, use_video_port=True)
-            
+
                         self.beforefilename = ''
                         self.afterfilename = ''
                         self.beforefilepath = ''
