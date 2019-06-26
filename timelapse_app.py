@@ -47,7 +47,7 @@ def genericresponse():
 
 @app.route('/arm', methods=['GET'])
 def startArm():
-    command = "rm {}*".format(v.savepath)
+    command = shlex.split("rm {}*".format(v.savepath))
     print command
     try:
         output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
