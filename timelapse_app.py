@@ -101,11 +101,12 @@ def send_lastvideo():
         print basepath
         command = "MP4Box -add {} {}.mp4".format(path, basepath)
         try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            #output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            output = subprocess.call(command, shell=True)            
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         print path
-        return send_file(path)
+        return send_file(basepath+".mp4")
     else:
         return 'no last video' + '<BR>' + genericresponse()
 
