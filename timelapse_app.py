@@ -39,7 +39,8 @@ v=VideoServer.VideoServer()
 v.daemon = True
 v.start()
 time.sleep(3)
-startArm()
+v.startArm()
+purgeFolder(v.savepath)
 
 def purgeFolder(folder):
     for the_file in os.listdir(folder):
