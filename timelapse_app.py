@@ -130,6 +130,29 @@ def convert_lastvideo():
     else:
         return 'no last video' + '<BR>' + genericresponse()
 
+@app.route('/event')
+def event():
+    v.startVideo()
+    v.stopVideo()
+    if v.savename:
+        basepath = v.savepath + v.savename
+        path = basepath + "_before.h264"
+        print path
+        print basepath
+        #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
+        command = "MP4Box -add {} {}.mp4".format(path, basepath)
+        print command
+        try:
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            #output = subprocess.call(command, shell=True)
+        except subprocess.CalledProcessError as e:
+            print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
+        print path
+        return basepath
+    else:
+        return 'no last video' + '<BR>' + genericresponse()
+
+
 @app.route('/help', methods=['GET'])
 def help():
     ret = 'arm' + '<BR>'
