@@ -131,7 +131,7 @@ class VideoServer(threading.Thread):
         self.scanImageFrame = 0
         fileName = self.savepath + self.savename
         self.write_video(self.stream, fileName + ".h264")
-        self.camera.split_recording(self.stream)
+        #self.camera.start_recording(self.stream, format='h264')
         return fileName
 
     #start arm
