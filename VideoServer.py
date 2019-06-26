@@ -190,7 +190,7 @@ class VideoServer(threading.Thread):
                             self.beforefilepath = self.savepath + self.beforefilename
                             self.afterfilepath = self.savepath + self.afterfilename
                             # record the frames "after" motion
-                            #self.camera.split_recording(self.afterfilepath)
+                            self.camera.split_recording(self.afterfilepath)
                             # Write the 10 seconds "before" motion to disk as well
                             self.write_video(self.stream, self.beforefilepath)
 
