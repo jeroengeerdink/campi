@@ -129,7 +129,7 @@ def convert_lastvideo():
 @app.route('/event')
 def event():
     v.startVideo()
-    sleep(0.5)
+    time.sleep(0.5)
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
