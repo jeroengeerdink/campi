@@ -78,7 +78,7 @@ def send_lastvideo():
 @app.route('/log')
 def log():
     filepath = v.saveBuffer()
-    time.sleep(0.5)
+    time.sleep(1.5)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
@@ -95,7 +95,7 @@ def log():
 @app.route('/event')
 def event():
     filepath = v.saveBuffer()
-    time.sleep(0.5)
+    time.sleep(1.5)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
