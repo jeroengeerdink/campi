@@ -40,7 +40,6 @@ v.daemon = True
 v.start()
 time.sleep(3)
 v.startArm()
-purgeFolder(v.savepath)
 
 def purgeFolder(folder):
     for the_file in os.listdir(folder):
@@ -175,6 +174,7 @@ def get_index():
 #start the app/webserver
 if __name__ == "__main__":
     try:
+        purgeFolder(v.savepath)
         app.run(host='0.0.0.0', port=5010, debug=True)
         #socketio.run(app, host='0.0.0.0', use_reloader=True)
         #socketio.run(app, host='0.0.0.0', port=5001, use_reloader=True)
