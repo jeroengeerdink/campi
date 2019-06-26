@@ -31,6 +31,7 @@ v.doTimelapse=0
 v.stopArm()
 '''
 import os, time, io, math, threading
+import time, datetime
 from datetime import datetime #to get fractional seconds
 import picamera
 
