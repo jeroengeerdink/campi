@@ -47,6 +47,13 @@ def genericresponse():
 
 @app.route('/arm', methods=['GET'])
 def startArm():
+    command = "rm {}*".format(v.savepath)
+    print command
+    try:
+        output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+        #output = subprocess.call(command, shell=True)
+    except subprocess.CalledProcessError as e:
+        print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
     v.startArm()
     return '{"status": "armed"}'
 
@@ -108,17 +115,13 @@ def convert_lastvideo():
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
-        print path
-        print basepath
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {} {}.mp4".format(path, basepath)
-        print command
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        print path
         return '{"status": "converted", "path": '+basepath+'}'
     else:
         return '{"status": "no video"}'
