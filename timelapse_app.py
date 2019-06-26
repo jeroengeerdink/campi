@@ -39,7 +39,7 @@ v=VideoServer.VideoServer()
 v.daemon = True
 v.start()
 
-def purgeFolder(folder)
+def purgeFolder(folder):
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
