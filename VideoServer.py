@@ -173,6 +173,14 @@ class VideoServer(threading.Thread):
         stream.seek(0)
         stream.truncate()
 
+    def saveBuffer(self, self.savename):
+        self.recordDuration = 20 #seconds, make this a parameter
+        self.savename = timestamp.split('.')[0]
+        self.scanImageFrame = 0
+        fileName = self.savepath + self.savename
+        self.write_video(self.stream, fileName + ".h264")
+        return filename
+
     #start arm
     def run(self):
         print '\tVideoServer run() is initializing [can only call this once]'

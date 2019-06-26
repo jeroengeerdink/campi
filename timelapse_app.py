@@ -25,6 +25,8 @@ import pprint #to print class members
 import shlex
 import subprocess
 from flask import Flask, jsonify, send_file, redirect
+import os, shutil
+
 
 import VideoServer
 
@@ -37,6 +39,16 @@ v=VideoServer.VideoServer()
 v.daemon = True
 v.start()
 
+def purgeFolder(folder)
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+                #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+        except Exception as e:
+            print(e)
+
 def genericresponse():
     dateStr = time.strftime("%m/%d/%y")
     timeStr = time.strftime("%H:%M:%S")
@@ -47,13 +59,7 @@ def genericresponse():
 
 @app.route('/arm', methods=['GET'])
 def startArm():
-    command = shlex.split("rm {}*".format(v.savepath))
-    print command
-    try:
-        output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-        #output = subprocess.call(command, shell=True)
-    except subprocess.CalledProcessError as e:
-        print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
+    purgeFolder(v.savepath)
     v.startArm()
     return '{"status": "armed"}'
 
@@ -128,20 +134,18 @@ def convert_lastvideo():
 
 @app.route('/event')
 def event():
-    v.startVideo()
+    filepath = v.saveBuffer()
     time.sleep(0.5)
-    if v.savename:
-        basepath = v.savepath + v.savename
-        path = basepath + "_before.h264"
+    if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
-        command = "MP4Box -add {} {}.mp4".format(path, basepath)
+        command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
         print command
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        return '{"status": "converted", "path": "'+basepath+'"}'
+        return '{"status": "converted", "path": "'+filepath+'"}'
     else:
         return '{"status": "error"}'
 
