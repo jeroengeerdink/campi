@@ -48,22 +48,22 @@ def genericresponse():
 @app.route('/arm', methods=['GET'])
 def startArm():
     v.startArm()
-    return genericresponse()
+    return '{"status": "armed"}'
 
 @app.route('/disarm', methods=['GET'])
 def stopArm():
     v.stopArm()
-    return genericresponse()
+    return '{"status": "disarmed"}'
 
 @app.route('/start', methods=['GET'])
 def startVideo():
     v.startVideo()
-    return genericresponse()
+    return '{"status": "started"}'
 
 @app.route('/stop', methods=['GET'])
 def stopVideo():
     v.stopVideo()
-    return genericresponse()
+    return '{"status": "stopped"}'
 
 @app.route('/timelapseon', methods=['GET'])
 def timelapseon():
@@ -101,7 +101,7 @@ def send_lastvideo():
         path = basepath + "_before.h264"
         return send_file(basepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True)
     else:
-        return 'no last video' + '<BR>' + genericresponse()
+        return '{"status": "no video"}'
 
 @app.route('/convert')
 def convert_lastvideo():
@@ -119,19 +119,16 @@ def convert_lastvideo():
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         print path
-        return basepath
+        return '{"status": "converted", "path": '+basepath+'}'
     else:
-        return 'no last video' + '<BR>' + genericresponse()
+        return '{"status": "no video"}'
 
 @app.route('/event')
 def event():
     v.startVideo()
-    v.stopVideo()
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
-        print path
-        print basepath
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {} {}.mp4".format(path, basepath)
         print command
@@ -140,10 +137,9 @@ def event():
             #output = subprocess.call(command, shell=True)
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
-        print path
-        return basepath
+        return '{"status": "converted", "path": '+basepath+'}'
     else:
-        return 'no last video' + '<BR>' + genericresponse()
+        return '{"status": "error"}'
 
 
 @app.route('/help', methods=['GET'])
