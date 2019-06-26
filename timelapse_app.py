@@ -23,6 +23,7 @@ http://server/timelapseoff
 import time, datetime, platform
 import pprint #to print class members
 import shlex
+import subprocess
 from flask import Flask, jsonify, send_file, redirect
 
 import VideoServer
