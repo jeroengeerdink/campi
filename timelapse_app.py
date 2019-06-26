@@ -43,22 +43,22 @@ def genericresponse():
     ret += pprint.pformat(v.__dict__).replace(',','<BR>')
     return ret
 
-@app.route('/startarm', methods=['GET'])
+@app.route('/arm', methods=['GET'])
 def startArm():
     v.startArm()
     return genericresponse()
 
-@app.route('/stoparm', methods=['GET'])
+@app.route('/disarm', methods=['GET'])
 def stopArm():
     v.stopArm()
     return genericresponse()
 
-@app.route('/startvideo', methods=['GET'])
+@app.route('/start', methods=['GET'])
 def startVideo():
     v.startVideo()
     return genericresponse()
 
-@app.route('/stopvideo', methods=['GET'])
+@app.route('/stop', methods=['GET'])
 def stopVideo():
     v.stopVideo()
     return genericresponse()
@@ -94,10 +94,10 @@ def send_lastimage(filename):
 
 @app.route('/help', methods=['GET'])
 def help():
-    ret = 'startarm' + '<BR>'
-    ret += 'stoparm' + '<BR>'
-    ret += 'startvideo' + '<BR>'
-    ret += 'stopvideo' + '<BR>'
+    ret = 'arm' + '<BR>'
+    ret += 'disarm' + '<BR>'
+    ret += 'start' + '<BR>'
+    ret += 'stop' + '<BR>'
     ret += 'timelapseon' + '<BR>'
     ret += 'timelapseoff' + '<BR>'
     ret += 'lastimage' + '<BR>'
