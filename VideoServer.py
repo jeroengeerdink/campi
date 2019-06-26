@@ -180,7 +180,7 @@ class VideoServer(threading.Thread):
         self.scanImageFrame = 0
         fileName = self.savepath + self.savename
         self.write_video(self.stream, fileName + ".h264")
-        return filename
+        return fileName
 
     #start arm
     def run(self):
