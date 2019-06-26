@@ -173,7 +173,7 @@ class VideoServer(threading.Thread):
         stream.seek(0)
         stream.truncate()
 
-    def saveBuffer(self, self.savename):
+    def saveBuffer(self):
         self.recordDuration = 20 #seconds, make this a parameter
         self.savename = timestamp.split('.')[0]
         self.scanImageFrame = 0
