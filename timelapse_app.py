@@ -106,7 +106,7 @@ def send_lastvideo():
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
-        return send_file(basepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True)
+        return send_file(basepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True, cache_timeout=1)
     else:
         return '{"status": "no video"}'
 
