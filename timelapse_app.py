@@ -95,8 +95,9 @@ def send_lastimage(filename):
 @app.route('/lastvideo')
 def send_lastvideo():
     if v.savename:
-        path = v.savepath + v.savename + "_before.h264"
-        command = "MP4Box -add {} {}.mp4".format(path, (self.savepath + self.savename))
+        basepath = v.savepath + v.savename
+        path = basepath + "_before.h264"
+        command = "MP4Box -add {} {}.mp4".format(path, basepath)
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError as e:
