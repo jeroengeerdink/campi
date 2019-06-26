@@ -38,8 +38,6 @@ print 'starting video server'
 v=VideoServer.VideoServer()
 v.daemon = True
 v.start()
-time.sleep(3)
-v.startArm()
 
 def purgeFolder(folder):
     for the_file in os.listdir(folder):
@@ -174,6 +172,9 @@ def get_index():
 #start the app/webserver
 if __name__ == "__main__":
     try:
+        time.sleep(3)
+        v.startArm()
+        time.sleep(3)
         purgeFolder(v.savepath)
         app.run(host='0.0.0.0', port=5010, debug=True)
         #socketio.run(app, host='0.0.0.0', use_reloader=True)
