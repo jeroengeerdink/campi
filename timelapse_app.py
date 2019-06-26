@@ -97,12 +97,14 @@ def send_lastvideo():
     if v.savename:
         basepath = v.savepath + v.savename
         path = basepath + "_before.h264"
+        print path
+        print basepath
         command = "MP4Box -add {} {}.mp4".format(path, basepath)
         try:
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError as e:
-            print('FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output))
-        print(path)
+            print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
+        print path
         return send_file(path)
     else:
         return 'no last video' + '<BR>' + genericresponse()
