@@ -38,6 +38,8 @@ class VideoServer(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
 
+
+
         #when this script is running, it will always be armed
         self.isArmed = 0
         self.videoStarted = 0
@@ -80,6 +82,7 @@ class VideoServer(threading.Thread):
             print '\tVideoServer initializing camera'
             self.camera = picamera.PiCamera()
             self.camera.resolution = (640, 480)
+            self.camera.rotation = 180
             #self.camera.led = 0
             self.camera.start_preview()
             self.camera.framerate = 30 # can be 60
