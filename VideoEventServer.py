@@ -52,7 +52,7 @@ class VideoServer(threading.Thread):
             os.makedirs(self.savepath)
 
         self.savename = '' # the prefix to save all files
-        self.bufferSeconds = 3
+        self.bufferSeconds = 30
 
         self.startTime = 0 #when we start recording in run(), triggered by startVideo()
 
@@ -68,9 +68,9 @@ class VideoServer(threading.Thread):
         if self.isArmed == 0:
             print '\tVideoServer initializing camera'
             self.camera = picamera.PiCamera()
-            self.camera.resolution = (640, 480)
+            self.camera.resolution = (1280, 720)
             self.camera.rotation = 180
-            self.camera.start_preview()
+            #self.camera.start_preview()
             self.camera.framerate = 30 # can be 60
 
             print '\tVideoServer starting circular stream'
@@ -108,19 +108,17 @@ class VideoServer(threading.Thread):
         # lock the stream here as we're definitely not writing to it
         # simultaneously
         #with io.open(self.savepath + 'before.h264', 'wb') as output:
-        #with io.open(beforeFilePath, 'wb') as output:
-        stream.copy_to(beforeFilePath, seconds=10)
-
-            #for frame in stream.frames:
-            #    if frame.frame_type == picamera.PiVideoFrameType.sps_header:
-            #        stream.seek(frame.position)
-            #        break
-            #while True:
-            #    buf = stream.read1()
-            #    if not buf:
-            #        break
-            #    output.write(buf)
-
+        with io.open(beforeFilePath, 'wb') as output:
+            #stream.copy_to(output, seconds=10)
+            for frame in stream.frames:
+                if frame.frame_type == picamera.PiVideoFrameType.sps_header:
+                    stream.seek(frame.position)
+                    break
+            while True:
+                buf = stream.read1()
+                if not buf:
+                    break
+                output.write(buf)
         # Wipe the circular stream once we're done
         stream.seek(0)
         stream.truncate()
@@ -130,8 +128,9 @@ class VideoServer(threading.Thread):
         self.savename = timestamp.split('.')[0]
         self.scanImageFrame = 0
         fileName = self.savepath + self.savename
-        self.write_video(self.stream, fileName + ".h264")
-        #self.camera.start_recording(self.stream, format='h264')
+        #self.write_video(self.stream, fileName + ".h264")
+        with io.open(fileName + ".h264", 'wb') as output:
+            stream.copy_to(output, seconds=10)
         return fileName
 
     #start arm
