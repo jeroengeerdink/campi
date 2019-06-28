@@ -120,11 +120,12 @@ def event():
     else:
         return '{"status": "error"}'
 
-#home page
-@app.route('/kill', methods=['GET'])
-def killserver():
-    x = 1/0
-    return x
+@app.route('/quit')
+def shutdown():
+    shutdown_hook = request.environ.get('werkzeug.server.shutdown')
+    if shutdown_hook is not None:
+        shutdown_hook()
+    return Response("Bye", mimetype='text/plain')
 
 #home page
 @app.route('/', methods=['GET'])
