@@ -130,7 +130,7 @@ class VideoServer(threading.Thread):
         fileName = self.savepath + self.savename
         #self.write_video(self.stream, fileName + ".h264")
         with io.open(fileName + ".h264", 'wb') as output:
-            stream.copy_to(output, seconds=10)
+            self.stream.copy_to(output, seconds=10)
         return fileName
 
     #start arm
