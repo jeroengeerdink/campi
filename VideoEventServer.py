@@ -102,35 +102,14 @@ class VideoServer(threading.Thread):
         #datetime.datetime.now().strftime("%H:%M:%S.%f")
         return time.strftime('%Y%m%d') + '_' + datetime.now().strftime("%H%M%S.%f")
 
-    #called from run()
-    def write_video(self, stream, beforeFilePath):
-        # Write the entire content of the circular buffer to disk. No need to
-        # lock the stream here as we're definitely not writing to it
-        # simultaneously
-        #with io.open(self.savepath + 'before.h264', 'wb') as output:
-        with io.open(beforeFilePath, 'wb') as output:
-            #stream.copy_to(output, seconds=10)
-            for frame in stream.frames:
-                if frame.frame_type == picamera.PiVideoFrameType.sps_header:
-                    stream.seek(frame.position)
-                    break
-            while True:
-                buf = stream.read1()
-                if not buf:
-                    break
-                output.write(buf)
-        # Wipe the circular stream once we're done
-        stream.seek(0)
-        stream.truncate()
-
     def saveBuffer(self):
         timestamp = self.GetTimestamp()
         self.savename = timestamp.split('.')[0]
-        self.scanImageFrame = 0
         fileName = self.savepath + self.savename
         #self.write_video(self.stream, fileName + ".h264")
         with io.open(fileName + ".h264", 'wb') as output:
             self.stream.copy_to(output, seconds=30)
+        stream.clear()
         return fileName
 
     #start arm
