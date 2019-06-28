@@ -52,10 +52,9 @@ class VideoServer(threading.Thread):
             os.makedirs(self.savepath)
 
         self.savename = '' # the prefix to save all files
-        self.bufferSeconds = 5
+        self.bufferSeconds = 30
 
         self.startTime = 0 #when we start recording in run(), triggered by startVideo()
-        self.recordDuration = 10 #seconds, set to infinity to then stop with stopVideo()
 
         self.doTimelapse = 0
 
@@ -71,7 +70,6 @@ class VideoServer(threading.Thread):
             self.camera = picamera.PiCamera()
             self.camera.resolution = (640, 480)
             self.camera.rotation = 180
-            #self.camera.led = 0
             self.camera.start_preview()
             self.camera.framerate = 30 # can be 60
 
@@ -125,7 +123,6 @@ class VideoServer(threading.Thread):
         stream.truncate()
 
     def saveBuffer(self):
-        self.recordDuration = 20 #seconds, make this a parameter
         timestamp = self.GetTimestamp()
         self.savename = timestamp.split('.')[0]
         self.scanImageFrame = 0

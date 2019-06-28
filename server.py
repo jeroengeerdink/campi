@@ -26,6 +26,7 @@ import shlex
 import subprocess
 from flask import Flask, jsonify, send_file, redirect
 import os, shutil
+import os.path
 
 
 import VideoEventServer
@@ -78,7 +79,9 @@ def send_lastvideo():
 @app.route('/log')
 def log():
     filepath = v.saveBuffer()
-    time.sleep(1.5)
+    now = time.time()
+    while os.path.exists(filepath + ".h264") == False or (time.time()<( now + 5)):
+        time.sleep(0.01)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
@@ -95,7 +98,9 @@ def log():
 @app.route('/event')
 def event():
     filepath = v.saveBuffer()
-    time.sleep(1.5)
+    now = time.time()
+    while os.path.exists(filepath + ".h264") == False or (time.time()<( now + 5)):
+        time.sleep(0.01)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
         command = "MP4Box -add {}.h264 {}.mp4".format(filepath, filepath)
@@ -106,6 +111,11 @@ def event():
         except subprocess.CalledProcessError as e:
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         #return '{"status": "converted", "path": "'+filepath+'"}'
+        now = time.time()
+        while os.path.exists(filepath + ".mp4") == False or (time.time()<( now + 5)):
+            time.sleep(0.01)
+        if os.path.exists(filepath + ".mp4") == False
+            return "ERROR"
         return send_file(filepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True, cache_timeout=-1)
     else:
         return '{"status": "error"}'
