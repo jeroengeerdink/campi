@@ -24,7 +24,7 @@ import time, datetime, platform
 import pprint #to print class members
 import shlex
 import subprocess
-from flask import Flask, jsonify, send_file, redirect
+from flask import Flask, jsonify, send_file, redirect, request
 import os, shutil
 import os.path
 
