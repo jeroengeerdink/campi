@@ -121,6 +121,12 @@ def event():
         return '{"status": "error"}'
 
 #home page
+@app.route('/kill', methods=['GET'])
+def killserver():
+    x = 1/0
+    return x
+
+#home page
 @app.route('/', methods=['GET'])
 def get_index():
     ret = pprint.pformat(v.__dict__)
