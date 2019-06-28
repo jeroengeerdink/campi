@@ -52,7 +52,7 @@ class VideoServer(threading.Thread):
             os.makedirs(self.savepath)
 
         self.savename = '' # the prefix to save all files
-        self.bufferSeconds = 30
+        self.bufferSeconds = 3
 
         self.startTime = 0 #when we start recording in run(), triggered by startVideo()
 
