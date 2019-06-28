@@ -139,8 +139,6 @@ if __name__ == "__main__":
     try:
         purgeFolder(v.savepath)
         app.run(host='0.0.0.0', port=5010, debug=True)
-        time.sleep(3)
-        v.startArm()
         #socketio.run(app, host='0.0.0.0', use_reloader=True)
         #socketio.run(app, host='0.0.0.0', port=5001, use_reloader=True)
     except:

@@ -135,6 +135,7 @@ class VideoServer(threading.Thread):
     def run(self):
         print '\tVideoServer run() is initializing [can only call this once]'
         lasttime = time.time()
+        self.isArmed = True
         while True:
             if self.isArmed:
                 timestamp = self.GetTimestamp()
