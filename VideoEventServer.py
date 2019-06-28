@@ -68,7 +68,7 @@ class VideoServer(threading.Thread):
         if self.isArmed == 0:
             print '\tVideoServer initializing camera'
             self.camera = picamera.PiCamera()
-            self.camera.resolution = (1280, 720)
+            self.camera.resolution = (640, 480)
             self.camera.rotation = 180
             #self.camera.start_preview()
             self.camera.framerate = 30 # can be 60
@@ -130,7 +130,7 @@ class VideoServer(threading.Thread):
         fileName = self.savepath + self.savename
         #self.write_video(self.stream, fileName + ".h264")
         with io.open(fileName + ".h264", 'wb') as output:
-            self.stream.copy_to(output, seconds=10)
+            self.stream.copy_to(output, seconds=30)
         return fileName
 
     #start arm
