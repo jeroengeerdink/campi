@@ -114,7 +114,7 @@ def event():
         now = time.time()
         while (not os.path.exists(filepath + ".mp4")) or (time.time()<( now + 5)):
             time.sleep(0.01)
-        if os.path.exists(filepath + ".mp4") == False
+        if not os.path.exists(filepath + ".mp4"):
             return "ERROR"
         return send_file(filepath+".mp4", mimetype='video/mp4', attachment_filename='event.mp4', as_attachment=True, cache_timeout=-1)
     else:
