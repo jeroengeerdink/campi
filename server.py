@@ -80,7 +80,7 @@ def send_lastvideo():
 def log():
     filepath = v.saveBuffer()
     now = time.time()
-    while os.path.exists(filepath + ".h264") == False or (time.time()<( now + 5)):
+    while (not os.path.exists(filepath + ".h264")) or (time.time()<( now + 5)):
         time.sleep(0.01)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
@@ -99,7 +99,7 @@ def log():
 def event():
     filepath = v.saveBuffer()
     now = time.time()
-    while os.path.exists(filepath + ".h264") == False or (time.time()<( now + 5)):
+    while (not os.path.exists(filepath + ".h264")) or (time.time()<( now + 5)):
         time.sleep(0.01)
     if filepath:
         #command = shlex.split("MP4Box -add {} {}.mp4".format(path, basepath))
@@ -112,7 +112,7 @@ def event():
             print 'FAIL:\ncmd:{}\noutput:{}'.format(e.cmd, e.output)
         #return '{"status": "converted", "path": "'+filepath+'"}'
         now = time.time()
-        while os.path.exists(filepath + ".mp4") == False or (time.time()<( now + 5)):
+        while (not os.path.exists(filepath + ".mp4")) or (time.time()<( now + 5)):
             time.sleep(0.01)
         if os.path.exists(filepath + ".mp4") == False
             return "ERROR"
