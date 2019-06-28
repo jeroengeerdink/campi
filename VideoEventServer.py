@@ -109,15 +109,18 @@ class VideoServer(threading.Thread):
         # simultaneously
         #with io.open(self.savepath + 'before.h264', 'wb') as output:
         with io.open(beforeFilePath, 'wb') as output:
-            for frame in stream.frames:
-                if frame.frame_type == picamera.PiVideoFrameType.sps_header:
-                    stream.seek(frame.position)
-                    break
-            while True:
-                buf = stream.read1()
-                if not buf:
-                    break
-                output.write(buf)
+            stream.copy_to(output, seconds=10)
+            
+            #for frame in stream.frames:
+            #    if frame.frame_type == picamera.PiVideoFrameType.sps_header:
+            #        stream.seek(frame.position)
+            #        break
+            #while True:
+            #    buf = stream.read1()
+            #    if not buf:
+            #        break
+            #    output.write(buf)
+
         # Wipe the circular stream once we're done
         stream.seek(0)
         stream.truncate()
