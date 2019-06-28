@@ -1,35 +1,5 @@
 #!/usr/bin/env python
-#Author: Robert H Cudmore
-#Web: http://robertcudmore.org
-#Date: 20151205
-#Purpose: A rewrite of VideoThread.py
-#
-#This should not use pins but respond to function calls instead
 
-'''
-Usage
-==========
-import VideoServer
-v=VideoServer.VideoServer()
-
-#start video server daemon
-v.daemon = True
-v.start()
-
-v.startArm()
-
-#start and stop video recording as much as you like
-v.startVideo()
-v.stopVideo()
-
-v.startVideo()
-v.stopVideo()
-
-v.doTimelapse=1
-v.doTimelapse=0
-
-v.stopArm()
-'''
 import os, time, io, math, threading
 from datetime import datetime #to get fractional seconds
 import picamera
@@ -37,25 +7,17 @@ import picamera
 class VideoServer(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-
-
-
         #when this script is running, it will always be armed
         self.isArmed = 0
         self.videoStarted = 0
-
         self.stream = None
-
         self.savepath = '/home/pi/video/' + time.strftime('%Y%m%d') + '/'
         if not os.path.exists(self.savepath):
             print '\tVideoServer is making output directory:', self.savepath
             os.makedirs(self.savepath)
-
         self.savename = '' # the prefix to save all files
         self.bufferSeconds = 30
-
         self.startTime = 0 #when we start recording in run(), triggered by startVideo()
-
         self.doTimelapse = 0
 
     def getState(self):
