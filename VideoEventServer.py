@@ -108,9 +108,9 @@ class VideoServer(threading.Thread):
         # lock the stream here as we're definitely not writing to it
         # simultaneously
         #with io.open(self.savepath + 'before.h264', 'wb') as output:
-        with io.open(beforeFilePath, 'wb') as output:
-            stream.copy_to(output, seconds=10)
-            
+        #with io.open(beforeFilePath, 'wb') as output:
+        stream.copy_to(beforeFilePath, seconds=10)
+
             #for frame in stream.frames:
             #    if frame.frame_type == picamera.PiVideoFrameType.sps_header:
             #        stream.seek(frame.position)
